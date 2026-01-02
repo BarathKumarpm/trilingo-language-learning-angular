@@ -1,0 +1,150 @@
+<div class="min-h-screen bg-white flex justify-center px-4">
+  <div class="w-full max-w-3xl py-10 space-y-10">
+    <!-- Home Button -->
+    <button
+      (click)="goHome()"
+      class="bg-rose-300 border-b-4 border-rose-400 text-white font-bold py-1 px-4 rounded-2xl transition-all duration-150 transform active:translate-y-1 active:border-b-0"
+    >
+      <i class="fa-solid fa-house"></i>
+      Home
+    </button>
+
+    <!-- Header -->
+    <header class="flex items-center justify-between">
+      <h1 class="text-2xl font-extrabold text-gray-800">
+        {{ courseName }}
+      </h1>
+
+      <div
+        class="flex items-center gap-2 bg-rose-100 px-3 py-1 rounded-full shadow"
+      >
+        <span class="text-red-500 text-lg">❤️</span>
+        <span class="font-semibold text-gray-700">
+          {{ heartsRemaining }}
+        </span>
+      </div>
+    </header>
+
+    <!-- Unit Card -->
+    <section
+      class="bg-[#f66f3b] text-white rounded-2xl p-6 shadow-lg flex flex-col gap-3"
+    >
+      <div class="flex items-center gap-3 text-sm font-semibold opacity-90">
+        <span>{{ sectionTitle }}</span>
+        <span>•</span>
+        <span>{{ unitTitle }}</span>
+      </div>
+
+      <h2 class="text-xl font-bold leading-tight">
+        {{ unitDescription }}
+      </h2>
+    </section>
+
+    <!-- Lessons -->
+    <section class="space-y-8">
+      <h3 class="text-lg font-bold text-gray-700 text-center">Lessons</h3>
+
+      <div class="flex flex-col items-center gap-10">
+        @for (lesson of lessons; track lesson.id) {
+
+        <!-- Lesson Node -->
+        <div
+          class="flex flex-col items-center gap-2"
+          [style.marginLeft.px]="lesson.offset"
+        >
+          <!-- Red Panda Head Button -->
+          <button
+            (click)="openLesson(lesson)"
+            class="relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-150 transform border-b-8 overflow-visible lesson-button"
+            [class.bg-[#f66f3b]]="lesson.progress !== 'Locked'"
+            [class.border-[#ce5242]]="lesson.progress !== 'Locked'"
+            [class.bg-gray-300]="lesson.progress === 'Locked'"
+            [class.border-gray-400]="lesson.progress === 'Locked'"
+            [class.active:translate-y-1]="lesson.progress !== 'Locked'"
+            [class.active:border-b-0]="lesson.progress !== 'Locked'"
+            [class.cursor-not-allowed]="lesson.progress === 'Locked'"
+            [attr.data-locked]="lesson.progress === 'Locked'"
+          >
+            <!-- Left Eye -->
+            <svg class="absolute left-6 top-8 w-5 h-6" viewBox="0 0 24 24">
+              <ellipse cx="12" cy="12" rx="4" ry="6" fill="white" />
+            </svg>
+
+            <!-- Right Eye -->
+            <svg class="absolute right-6 top-8 w-5 h-6" viewBox="0 0 24 24">
+              <ellipse cx="12" cy="12" rx="4" ry="6" fill="white" />
+            </svg>
+
+            <!-- Nose -->
+            <svg class="absolute bottom-9 w-6 h-4" viewBox="0 0 24 24">
+              <ellipse cx="12" cy="12" rx="3" ry="2.5" fill="white" />
+            </svg>
+
+            <!-- Mouth -->
+            <svg class="absolute bottom-5 w-10 h-4" viewBox="0 0 24 24">
+              <path
+                d="M6 6 Q12 12 18 6"
+                stroke="white"
+                stroke-width="2"
+                fill="none"
+              />
+            </svg>
+          </button>
+
+          <!-- Label BELOW button -->
+          <span
+            class="text-sm font-semibold"
+            [class.text-gray-400]="lesson.progress === 'Locked'"
+            [class.text-gray-700]="lesson.progress !== 'Locked'"
+          >
+            {{ lesson.title }}
+          </span>
+        </div>
+
+        }
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  /* Red Panda Ears */
+  .lesson-button {
+    position: relative;
+    overflow: visible; /* allow ears to extend */
+  }
+
+  .lesson-button::before,
+  .lesson-button::after {
+    content: '';
+    position: absolute;
+    top: -6px; /* above circle */
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 18px solid; /* color set below */
+  }
+
+  .lesson-button::before {
+    left: 4px; /* left ear */
+    transform: rotate(-30deg);
+  }
+
+  .lesson-button::after {
+    right: 4px; /* right ear */
+    transform: rotate(30deg);
+  }
+
+  /* Different ear color for locked buttons */
+  .lesson-button[data-locked="true"]::before,
+  .lesson-button[data-locked="true"]::after {
+    border-bottom-color: #c1c1c1; /* locked border color */
+  }
+
+  /* Normal color for active/unlocked */
+  .lesson-button:not([data-locked="true"])::before,
+  .lesson-button:not([data-locked="true"])::after {
+    border-bottom-color: #ce5242; /* same as button border */
+  }
+</style>
