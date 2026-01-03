@@ -54,7 +54,7 @@
           <!-- Lesson Button -->
           <button
             (click)="openLesson(lesson)"
-            class="lesson-button relative rounded-full flex items-center justify-center border-b-8 transform transition-all duration-500 ease-out"
+            class="lesson-button relative rounded-full flex items-center justify-center border-b-8 transform transition-all duration-500 ease-out lg:mb-0 mb-4s"
             [class.bg-[#f66f3b]]="lesson.progress !== 'Locked'"
             [class.border-[#ce5242]]="lesson.progress !== 'Locked'"
             [class.bg-gray-300]="lesson.progress === 'Locked'"
@@ -122,7 +122,7 @@
 .lesson-button::after {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -8px;
   width: 0;
   height: 0;
   border-left: 18px solid transparent;
@@ -183,13 +183,19 @@
 }
 
 /* =========================
-   MOBILE ENHANCEMENT
+   MOBILE ENHANCEMENT (Fixed)
 ========================= */
 @media (max-width: 480px) {
   .lesson-button {
     width: 120px;
     height: 120px;
-    border-bottom-width: 10px;
+    border-bottom-width: 10px; /* Border is 10px here */
+  }
+
+  /* FIX: Force translation to 10px to match the 10px border */
+  .lesson-button:not([data-locked="true"]):active {
+    transform: translateY(10px) !important; 
+    border-bottom-width: 0px !important;
   }
 
   .lesson-button::before,
@@ -197,7 +203,7 @@
     border-left-width: 22px;
     border-right-width: 22px;
     border-bottom-width: 22px;
-    top: -14px;
+    top: -8px; /* Adjusted to sit correctly on the larger border */
   }
 
   .eye {
@@ -227,3 +233,4 @@
   }
 }
 </style>
+
