@@ -24,7 +24,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
           This is dynamically loaded based on the route.
         </p>
 
-        <div class="bg-white p-6 rounded-xl shadow">
+        <div class="bg-white border-neutral-300 border-2 p-6 rounded-xl shadow">
           <p class="font-medium">
             Lesson content goes here.
           </p>
