@@ -3,7 +3,7 @@
     <!-- Home Button -->
     <button
       (click)="goHome()"
-      class="bg-rose-300 border-b-4 border-rose-400 text-white font-bold py-1 px-4 rounded-2xl transition-all duration-450 transform active:translate-y-1 active:border-b-0"
+      class="bg-rose-300 border-b-4 border-rose-400 text-white font-bold py-1 px-4 rounded-2xl transition-all duration-500 transform active:translate-y-1 active:border-b-0"
     >
       <i class="fa-solid fa-house"></i>
       Home
@@ -44,44 +44,43 @@
     <section class="space-y-8">
       <h3 class="text-lg font-bold text-gray-700 text-center">Lessons</h3>
 
-      <div class="flex flex-col items-center gap-10">
+      <div class="flex flex-col items-center gap-12">
         @for (lesson of lessons; track lesson.id) {
 
-        <!-- Lesson Node -->
         <div
-          class="flex flex-col items-center gap-2"
+          class="flex flex-col items-center gap-3"
           [style.marginLeft.px]="lesson.offset"
         >
-          <!-- Red Panda Head Button -->
+          <!-- Lesson Button -->
           <button
             (click)="openLesson(lesson)"
-            class="relative w-24 h-24 sm:w-36 sm:h-36 rounded-full flex items-center justify-center transition-all duration-150 transform border-b-8 overflow-visible lesson-button"
+            class="lesson-button relative rounded-full flex items-center justify-center border-b-8 transform transition-all duration-500 ease-out"
             [class.bg-[#f66f3b]]="lesson.progress !== 'Locked'"
             [class.border-[#ce5242]]="lesson.progress !== 'Locked'"
             [class.bg-gray-300]="lesson.progress === 'Locked'"
             [class.border-gray-400]="lesson.progress === 'Locked'"
-            [class.active:translate-y-1]="lesson.progress !== 'Locked'"
+            [class.active:translate-y-2]="lesson.progress !== 'Locked'"
             [class.active:border-b-0]="lesson.progress !== 'Locked'"
             [class.cursor-not-allowed]="lesson.progress === 'Locked'"
             [attr.data-locked]="lesson.progress === 'Locked'"
           >
             <!-- Left Eye -->
-            <svg class="absolute left-6 top-8 w-5 h-6" viewBox="0 0 24 24">
+            <svg class="eye left-eye" viewBox="0 0 24 24">
               <ellipse cx="12" cy="12" rx="4" ry="6" fill="white" />
             </svg>
 
             <!-- Right Eye -->
-            <svg class="absolute right-6 top-8 w-5 h-6" viewBox="0 0 24 24">
+            <svg class="eye right-eye" viewBox="0 0 24 24">
               <ellipse cx="12" cy="12" rx="4" ry="6" fill="white" />
             </svg>
 
             <!-- Nose -->
-            <svg class="absolute bottom-9 w-6 h-4" viewBox="0 0 24 24">
+            <svg class="nose" viewBox="0 0 24 24">
               <ellipse cx="12" cy="12" rx="3" ry="2.5" fill="white" />
             </svg>
 
             <!-- Mouth -->
-            <svg class="absolute bottom-5 w-10 h-4" viewBox="0 0 24 24">
+            <svg class="mouth" viewBox="0 0 24 24">
               <path
                 d="M6 6 Q12 12 18 6"
                 stroke="white"
@@ -91,7 +90,6 @@
             </svg>
           </button>
 
-          <!-- Label BELOW button -->
           <span
             class="text-sm font-semibold"
             [class.text-gray-400]="lesson.progress === 'Locked'"
@@ -108,45 +106,124 @@
 </div>
 
 <style>
-  /* Red Panda Ears */
+/* =========================
+   BASE BUTTON SIZE (DESKTOP)
+========================= */
+.lesson-button {
+  width: 96px;
+  height: 96px;
+  overflow: visible;
+}
+
+/* =========================
+   EARS
+========================= */
+.lesson-button::before,
+.lesson-button::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 18px solid;
+}
+
+.lesson-button::before {
+  left: 6px;
+  transform: rotate(-30deg);
+}
+
+.lesson-button::after {
+  right: 6px;
+  transform: rotate(30deg);
+}
+
+.lesson-button[data-locked="true"]::before,
+.lesson-button[data-locked="true"]::after {
+  border-bottom-color: #c1c1c1;
+}
+
+.lesson-button:not([data-locked="true"])::before,
+.lesson-button:not([data-locked="true"])::after {
+  border-bottom-color: #ce5242;
+}
+
+/* =========================
+   FACE ELEMENTS
+========================= */
+.eye {
+  position: absolute;
+  width: 20px;
+  height: 26px;
+  top: 28px;
+}
+
+.left-eye {
+  left: 22px;
+}
+
+.right-eye {
+  right: 22px;
+}
+
+.nose {
+  position: absolute;
+  bottom: 34px;
+  width: 24px;
+  height: 18px;
+}
+
+.mouth {
+  position: absolute;
+  bottom: 18px;
+  width: 40px;
+  height: 16px;
+}
+
+/* =========================
+   MOBILE ENHANCEMENT
+========================= */
+@media (max-width: 480px) {
   .lesson-button {
-    position: relative;
-    overflow: visible; /* allow ears to extend */
+    width: 120px;
+    height: 120px;
+    border-bottom-width: 10px;
   }
 
   .lesson-button::before,
   .lesson-button::after {
-    content: '';
-    position: absolute;
-    top: -6px; /* above circle */
-    width: 0;
-    height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-bottom: 18px solid; /* color set below */
+    border-left-width: 22px;
+    border-right-width: 22px;
+    border-bottom-width: 22px;
+    top: -14px;
   }
 
-  .lesson-button::before {
-    left: 4px; /* left ear */
-    transform: rotate(-30deg);
+  .eye {
+    width: 26px;
+    height: 34px;
+    top: 34px;
   }
 
-  .lesson-button::after {
-    right: 4px; /* right ear */
-    transform: rotate(30deg);
+  .left-eye {
+    left: 28px;
   }
 
-  /* Different ear color for locked buttons */
-  .lesson-button[data-locked="true"]::before,
-  .lesson-button[data-locked="true"]::after {
-    border-bottom-color: #c1c1c1; /* locked border color */
+  .right-eye {
+    right: 28px;
   }
 
-  /* Normal color for active/unlocked */
-  .lesson-button:not([data-locked="true"])::before,
-  .lesson-button:not([data-locked="true"])::after {
-    border-bottom-color: #ce5242; /* same as button border */
+  .nose {
+    width: 30px;
+    height: 22px;
+    bottom: 42px;
   }
+
+  .mouth {
+    width: 48px;
+    height: 20px;
+    bottom: 22px;
+  }
+}
 </style>
-
-
