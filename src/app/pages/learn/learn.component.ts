@@ -9,6 +9,7 @@ interface Lesson {
   title: string;
   progress: LessonProgress;
   offset: number; // for S-curve layout
+  content: string;
 }
 
 @Component({
@@ -36,10 +37,10 @@ export class LearnComponent {
      =============================== */
 
   lessons: Lesson[] = [
-    { id: 1, title: 'Greetings', progress: 'Completed', offset: 0 },
-    { id: 2, title: 'Introductions', progress: 'In Progress', offset: 40 },
-    { id: 3, title: 'Alphabet', progress: 'Locked', offset: 0 },
-    { id: 4, title: 'Pronunciation', progress: 'Locked', offset: 40 },
+    { id: 1, title: 'Greetings', progress: 'Completed', offset: 0, content: 'greetings' },
+    { id: 2, title: 'Introductions', progress: 'In Progress', offset: 40, content: 'introductions' },
+    { id: 3, title: 'Alphabet', progress: 'Locked', offset: 0, content: 'alphabets' },
+    { id: 4, title: 'Pronunciation', progress: 'Locked', offset: 40, content: 'pronunciations' },
   ];
 
   /* ===============================
@@ -49,7 +50,9 @@ export class LearnComponent {
   openLesson(lesson: Lesson): void {
     if (lesson.progress === 'Locked') return;
 
-    this.router.navigate(['/lesson', lesson.id]);
+    this.router.navigate(['/lesson', lesson.id], {
+      state: { lessonData: lesson }
+    });
   }
 
   goHome(): void {
