@@ -55,7 +55,7 @@
           <!-- Red Panda Head Button -->
           <button
             (click)="openLesson(lesson)"
-            class="relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-150 transform border-b-8 overflow-visible lesson-button"
+            class="relative w-24 h-24 sm:w-36 sm:h-36 rounded-full flex items-center justify-center transition-all duration-150 transform border-b-8 overflow-visible lesson-button"
             [class.bg-[#f66f3b]]="lesson.progress !== 'Locked'"
             [class.border-[#ce5242]]="lesson.progress !== 'Locked'"
             [class.bg-gray-300]="lesson.progress === 'Locked'"
@@ -148,4 +148,5 @@
     border-bottom-color: #ce5242; /* same as button border */
   }
 </style>
+
 
